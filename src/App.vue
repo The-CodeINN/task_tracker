@@ -1,8 +1,49 @@
-<script setup></script>
-
 <template>
-  <h1>Hello World</h1>
+  <div class="container">
+    <Header title="Task Tracker" />
+    <Tasks :tasks="tasks" />
+  </div>
 </template>
+
+<script>
+import Header from './components/Header.vue';
+import Tasks from './components/Tasks.vue';
+
+export default {
+  name: 'App',
+  components: {
+    Header,
+    Tasks
+},
+  data() {
+    return {
+      tasks: [],
+    };
+  },
+  created() {
+    this.tasks = [
+      {
+        id: 1,
+        text: 'Doctors Appointment',
+        day: 'Feb 5th at 2:30pm',
+        reminder: true,
+      },
+      {
+        id: 2,
+        text: 'Meeting at School',
+        day: 'Feb 6th at 1:30pm',
+        reminder: true,
+      },
+      {
+        id: 3,
+        text: 'Food Shopping',
+        day: 'Feb 5th at 2:30pm',
+        reminder: false,
+      },
+    ];
+  },
+};
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
