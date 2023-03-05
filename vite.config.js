@@ -8,7 +8,7 @@ export default defineConfig({
       "^/api": {
         // "http://localhost:5000/tasks";
         target:
-          "https://5000-thecodeinn-tasktracker-pc94gsv8aem.ws-eu89.gitpod.io/tasks",
+          "https://my-json-server.typicode.com/The-CodeINN/task_tracker/db",
         changeOrigin: true,
         logLevel: "debug",
         pathRewrite: { "^/api": "/" },
