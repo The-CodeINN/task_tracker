@@ -5,13 +5,14 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   server: {
     proxy: {
-      "^/api": {
+      '^/api': {
         // "http://localhost:5000/tasks";
-        target:
-          "https://my-json-server.typicode.com/The-CodeINN/task_tracker/",
+        // "https://my-json-server.typicode.com/The-CodeINN/task_tracker/",
+
+        target: 'https://mockend.com/The-CodeINN/task_tracker/tasks',
         changeOrigin: true,
-        logLevel: "debug",
-        pathRewrite: { "^/api": "/" },
+        logLevel: 'debug',
+        pathRewrite: { '^/api': '/' },
       },
     },
   },
