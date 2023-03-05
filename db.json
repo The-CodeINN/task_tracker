@@ -19,11 +19,11 @@
       "reminder": false
     },
     {
-      "text": "Go to Office",
-      "day": "Monday 5th by 3pm",
-      "reminder": false,
+      "text": "Go to Church",
+      "day": "Sunday by 6am",
+      "reminder": true,
       "taskId": "api",
-      "id": "E2-ttxn"
+      "id": "qP2faIy"
     }
   ]
 }
