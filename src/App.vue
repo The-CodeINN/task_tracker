@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <Header 
-    @toggle-add-task="toggleAddTask" 
-    title="Task Tracker"
-    :showAddTask="showAddTask"
+    <Header
+      @toggle-add-task="toggleAddTask"
+      title="Task Tracker"
+      :showAddTask="showAddTask"
     />
     <div v-show="showAddTask">
       <AddTask @add-task="addTask" />
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import AddTask from './components/AddTask.vue';
-import Header from './components/Header.vue';
-import Tasks from './components/Tasks.vue';
+import AddTask from "./components/AddTask.vue";
+import Header from "./components/Header.vue";
+import Tasks from "./components/Tasks.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     Tasks,
@@ -39,13 +39,29 @@ export default {
       this.showAddTask = !this.showAddTask;
     },
 
-    addTask(task) {
-      this.tasks = [...this.tasks, task];
+    async addTask(task) {
+      const response = await fetch("/api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+
+      const data = await response.json();
+
+      this.tasks = [...this.tasks, data];
     },
 
-    deleteTask(id) {
-      if (confirm('Are you sure?')) {
-        this.tasks = this.tasks.filter((task) => task.id !== id);
+    async deleteTask(id) {
+      if (confirm("Are you sure?")) {
+        const response = await fetch(`api/tasks/${id}`, {
+          method: 'DELETE',
+        });
+
+        response.status === 200
+          ? (this.tasks = this.tasks.filter((task) => task.id !== id))
+          : alert("Error in deleteing task");
       }
     },
 
@@ -54,38 +70,36 @@ export default {
         task.id === id ? { ...task, reminder: !task.reminder } : task
       );
     },
+
+    async fetchTasks() {
+      // const response = await fetch("http://localhost:5000/tasks");
+
+      const response = await fetch("api/tasks");
+
+      const data = await response.json();
+
+      return data;
+    },
+    async fetchTask() {
+      const response = await fetch(`api/tasks/${id}`);
+
+      const data = await response.json();
+
+      return data;
+    },
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Doctors Appointment',
-        day: 'Feb 5th at 2:30pm',
-        reminder: true,
-      },
-      {
-        id: 2,
-        text: 'Meeting at School',
-        day: 'Feb 6th at 1:30pm',
-        reminder: true,
-      },
-      {
-        id: 3,
-        text: 'Food Shopping',
-        day: 'Feb 5th at 2:30pm',
-        reminder: false,
-      },
-    ];
+  async created() {
+    this.tasks = await this.fetchTasks();
   },
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 .container {
   max-width: 500px;
